@@ -70,7 +70,7 @@ module Leetplate
       end
 
       def <=>(other)
-        other.word <=> word
+        word <=> other.word
       end
 
     end # Result
