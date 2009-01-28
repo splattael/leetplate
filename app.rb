@@ -4,6 +4,8 @@ require 'sinatra'
 $LOAD_PATH.unshift File.dirname(__FILE__) + "/lib"
 require 'leetplate'
 
+ResultCache = {} unless defined? ResultCache
+
 helpers do
   include Rack::Utils
   alias_method :h, :escape_html
@@ -21,12 +23,15 @@ post '/search' do
   if /^[a-zA-Z]{1,3}$/ !~ params['prefix']
     return redirect('/')
   end
-  @prefix = params['prefix']
+  @prefix = params['prefix'].upcase
 
   dicts = ENV['DICT'] ? ENV['DICT'].split(/ /) :
     %w(/usr/share/dict/ngerman /usr/share/dict/american-english)
-  finder = Leetplate::Finder.new(*dicts)
-  @results = finder.find(params['prefix'])
+
+  unless @results = ResultCache[@prefix]
+    finder = Leetplate::Finder.new(*dicts)
+    @results = ResultCache[@prefix] = finder.find(params['prefix'])
+  end
   haml :index
 end
 
