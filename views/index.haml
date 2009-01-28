@@ -1,8 +1,9 @@
 .search
   %form{:action => "search", :method => "post"}
-    %label{:for => "prefix"} Stadt:
-    %input{:type => "text", :name => "prefix", :id => "prefix", :size => 3, :value => h(@prefix || 'BO')}
-    %input{:type => "submit", :value => "Suchen"}
+    %p
+      %label{:for => "prefix"} Stadt:
+      %input{:type => "text", :name => "prefix", :id => "prefix", :size => 3, :value => h(@prefix || 'BO')}
+      %input{:type => "submit", :value => "Suchen"}
 
 - if @results
   .results
