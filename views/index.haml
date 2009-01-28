@@ -1,0 +1,16 @@
+.search
+  %form{:action => "search", :method => "post"}
+    %label{:for => "prefix"} Stadt:
+    %input{:type => "text", :name => "prefix", :id => "prefix", :size => 3, :value => h(@prefix || 'BO')}
+    %input{:type => "submit", :value => "Suchen"}
+
+- if @results
+  .results
+    - if @results.size == 0
+      %p.error
+        Keine Ergebnisse gefunden
+    - else
+      - for result in @results do
+        %div
+          %code= result.plate
+          %span= result.word
