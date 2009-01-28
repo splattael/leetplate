@@ -19,7 +19,7 @@ module Leetplate
     @dicts = []
 
     def initialize(*dicts)
-      @dicts = dicts
+      @dicts = dicts.map {|d| Dictionary.new(d) }
     end
 
     def find(prefix, options={})
@@ -32,7 +32,7 @@ module Leetplate
 
     def find_in_dict(dict, regex)
       results = []
-      File.open(dict).each do |line|
+      dict.each do |line|
         line.chomp!
         if m = regex.match(line)
           prefix, mid, leet = m.captures
@@ -48,6 +48,7 @@ module Leetplate
         LEET2NUM[char] || char
       end.join
     end
+
 
     class Result < Struct.new(:prefix, :mid, :code, :word)
 
@@ -73,6 +74,26 @@ module Leetplate
       end
 
     end # Result
+
+
+    class Dictionary
+      include Enumerable
+
+      CACHE = {}
+
+      def initialize(path)
+        @path = path
+      end
+
+      def each(&block)
+        @lines = CACHE[@path]
+        unless @lines
+          @lines = CACHE[@path] = File.read(@path)
+        end
+        @lines.each(&block)
+      end
+
+    end # Dictionary
 
   end # Finder
   
