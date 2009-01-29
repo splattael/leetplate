@@ -16,6 +16,8 @@ module Leetplate
       "p" => 9,
     }
 
+    REJECT_MID = %w(hj kz ns sa ss)
+
     @dicts = []
 
     def initialize(*dicts)
@@ -23,24 +25,30 @@ module Leetplate
     end
 
     def find(prefix, options={})
-      regex = /^(#{prefix})([a-z0-9-]{1,2})([#{LEET2NUM.keys.join}]{1,4})$/i
-
+      leet = LEET2NUM.keys
+      leet_wo_o = leet - ["o"]
+      @regex = /^(#{prefix})([a-z-]{1,2})([#{leet_wo_o.join}][#{leet.join}]{0,3})$/i
       @dicts.map do |dict|
-        find_in_dict(dict, regex)
+        find_in_dict(dict)
       end.flatten.compact.uniq.sort
     end
 
-    def find_in_dict(dict, regex)
+    def find_in_dict(dict)
       results = []
       dict.each do |line|
         line.chomp!
-        if m = regex.match(line)
+        if m = @regex.match(line)
           prefix, mid, leet = m.captures
+          next if reject?(prefix, mid, leet)
           code = unleet(leet)
           results << Result.new(prefix, mid, code, line)
         end
       end
       results
+    end
+
+    def reject?(prefix, mid, leet)
+      REJECT_MID.include?(mid.downcase)
     end
 
     def unleet(str)
