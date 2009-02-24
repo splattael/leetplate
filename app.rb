@@ -34,8 +34,3 @@ post '/search' do
   end
   haml :index
 end
-
-get '/style.css' do
-  content_type "text/css"
-  sass :style
-end
