@@ -1,20 +1,92 @@
 !!! Strict
-
-%html{:xmlns => "http://www.w3.org/1999/xhtml", :lang => "de"}
+%html{ :lang => "en", :xmlns => "http://www.w3.org/1999/xhtml" }
   %head
-    %meta{:"http-equiv" => "content-type", :content => "text/html; charset=utf-8"}
+    %meta{ :content => "text/html; charset=utf-8", "http-equiv" => "Content-Type" }
+    %meta{ :name => "descriptions", :content => "Nummernschildgenerator" }
+    %meta{ :name => "keywords", :content => "leet plate kennzeichen kfz generator numberplate 1337" }
+    %meta{ :name => "generator", :content => "sinatra" }
+
     %title Nummernschildgenerator - Leet plate
-    %link{:rel => 'stylesheet', :href => '/style.css', :type => 'text/css'}
+
+    %link{ :href => "stylesheets/base.css", :rel => "stylesheet", :media => "screen", :type => "text/css" }
+    %link{ :href => "stylesheets/leetplate.css", :rel => "stylesheet", :media => "screen", :type => "text/css" }
+    %link#current-theme{ :href => "stylesheets/themes/default/style.css", :rel => "stylesheet", :media => "screen", :type => "text/css" }
+
+    %script{ :type => "text/javascript", :src => "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js", :charset => "utf-8" }
+
+    :javascript
+      var Theme = {
+          activate: function(name) {
+          window.location.hash = 'themes/' + name
+          Theme.loadCurrent();
+        },
+        
+        loadCurrent: function() {
+          var hash = window.location.hash;
+          if (hash.length > 0) {
+            matches = hash.match(/^#themes\/([a-z0-9\-_]+)$/);
+              if (matches && matches.length > 1) {
+                $('#current-theme').attr('href', 'stylesheets/themes/' + matches[1] + '/style.css');
+              } else {
+                alert('theme not valid');
+              }
+          }
+        }
+      }
+      
+      $(document).ready(function() {
+        Theme.loadCurrent();
+          $('.table :checkbox.toggle').each(function(i, toggle) {
+            $(toggle).change(function(e) {
+              $(toggle).parents('table:first').find(':checkbox:not(.toggle)').each(function(j, checkbox) {
+              checkbox.checked = !checkbox.checked;
+            })
+          });
+        });
+      });
+
   %body
-    #main
+    #container
       #header
-        Leet plate - Finde Dein l337 KFZ-Kennzeichen!
-      #content
-        = yield
-      #footer
-        service on
-        %a{:href => "http://sinatra.github.com/"} sinatra
-        by
-        %a{:href => "http://peter.suschlik.de"} splattael
-        at
-        %a{:href => "http://github.com/splattael/leetplate"} github
+        %h1
+          %a{ :href => "/" } Leet plate - Finde Dein l337 KFZ-Kennzeichen!
+        .clear
+
+      #wrapper
+        #main
+          = yield
+          #footer
+            service on
+            %a{:href => "http://sinatra.github.com/"} sinatra
+            by
+            %a{:href => "http://peter.suschlik.de"} splattael
+            at
+            %a{:href => "http://github.com/splattael/leetplate"} github
+            styled with
+            %a{:href => "http://github.com/pilu/web-app-theme"} web-app-theme
+
+        #sidebar
+          %h3 Themes
+          %ul.navigation
+            %li
+              %a{ :href => "#", :onclick => "Theme.activate('default'); return false;" } Red
+            %li.last
+              %a{ :href => "#", :onclick => "Theme.activate('bec'); return false;" } Bec
+            %li.last
+              %a{ :href => "#", :onclick => "Theme.activate('bec-green'); return false;" } Bec-Green
+            %li
+              %a{ :href => "#", :onclick => "Theme.activate('orange'); return false;" } Orange
+            %li
+              %a{ :href => "#", :onclick => "Theme.activate('reidb-greenish'); return false;" } Greenish
+
+    :plain
+      <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+      </script>
+    :plain
+      <script type="text/javascript">
+        try {
+          var pageTracker = _gat._getTracker("UA-1807463-4");
+          pageTracker._trackPageview();
+      } catch(err) {}</script>

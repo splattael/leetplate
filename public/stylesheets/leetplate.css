@@ -1,0 +1,7 @@
+.form label.inlined {
+  display: inline;
+}
+
+.form input.inlined {
+  width: auto;
+}

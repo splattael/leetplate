@@ -1,17 +1,22 @@
-.search
-  %form{:action => "search", :method => "post"}
-    %p
-      %label{:for => "prefix"} Stadt:
-      %input{:type => "text", :name => "prefix", :id => "prefix", :size => 3, :value => h(@prefix || 'BO')}
-      %input{:type => "submit", :value => "Suchen"}
+.block
+  .content
+    %h2.title Suche
+    .inner
+      %form.form{ :action => "search", :method => "post" }
+        .group
+          %label.label.inlined{ :for => "prefix" } Stadt
+          %input.text_area.inlined{ :type => "text", :name => "prefix", :id => "prefix", :size => 3, :value => h(@prefix || 'BO') }
+          %input.button{ :type => "submit", :value => "suchen" }
 
-- if @results
-  .results
-    - if @results.size == 0
-      %p.error
-        Keine Ergebnisse gefunden
-    - else
-      - for result in @results do
-        %div
-          %code= result.plate
-          %span= result.word
+      - if @results
+        - if @results.size == 0
+          .flash
+            .message.error
+              %p
+                Keine Ergebnisse gefunden
+        - else
+          - for result in @results do
+            %ul.list
+              %li
+                .left= result.plate
+                .item= result.word
