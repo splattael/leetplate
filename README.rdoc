@@ -2,7 +2,7 @@
 
 Tiny webservice which finds leet plates.
 
-Live demo: http://leetplate.zilium.de/
+Live demo: http://leetplate.zilium.de
 
 == Start
 
