@@ -94,10 +94,7 @@ module Leetplate
       end
 
       def each(&block)
-        unless @lines = CACHE[@path]
-          @lines = CACHE[@path] = File.read(@path)
-        end
-        @lines.each(&block)
+        (CACHE[@path] ||= File.readlines(@path)).each(&block)
       end
 
     end # Dictionary
