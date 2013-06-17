@@ -6,8 +6,9 @@ Live demo: http://leetplate.zilium.de
 
 == Start
 
-thin -R production.ru -D -p PORT start
+  bundle
+  rackup production.rb
 
-Example
+=== Example
 
-DICT=/usr/share/dict/words thin -R production.ru -D -p 5000 start
+  DICT=/usr/share/dict/words thin -R production.ru -D -p 5000 start
