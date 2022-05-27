@@ -3,7 +3,7 @@ GEM
   specs:
     haml (4.0.3)
       tilt
-    rack (1.5.2)
+    rack (1.6.13)
     rack-protection (1.5.0)
       rack
     sinatra (1.4.3)
